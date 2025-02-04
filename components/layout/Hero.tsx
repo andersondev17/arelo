@@ -12,7 +12,7 @@ if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-const TOTAL_VIDEOS = 2;
+const TOTAL_VIDEOS = 1;
 
 const Hero = () => {
     const [currentIndex, setCurrentIndex] = useState(1);
