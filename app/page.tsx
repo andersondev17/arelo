@@ -9,13 +9,15 @@ export default function Home() {
     <div >
       <main className="relative min-h-screen w-screen overflow-x-hidden bg-zinc-600">
         <NavBar />
+        <div id ="inicio"  className='min-h-screen'>
         <Hero /> 
+        </div>
 
-        <div id ="about"  className='min-h-screen'>
+        <div id ="quienes somos"  className='min-h-screen'>
         <About />
         </div>
 
-        <div id ="portfolio"  className='min-h-screen'>
+        <div id ="portafolio"  className='min-h-screen'>
         <Portfolio />
         </div>
 
