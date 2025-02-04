@@ -9,9 +9,16 @@ export default function Home() {
     <div >
       <main className="relative min-h-screen w-screen overflow-x-hidden bg-zinc-600">
         <NavBar />
-        <Hero />  
+        <Hero /> 
+
+        <div id ="about"  className='min-h-screen'>
         <About />
+        </div>
+
+        <div id ="portfolio"  className='min-h-screen'>
         <Portfolio />
+        </div>
+
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a

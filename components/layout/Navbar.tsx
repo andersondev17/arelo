@@ -75,7 +75,7 @@ const NavBar: React.FC = () => {
             <header className="absolute top-1/2 w-full -translate-y-1/2">
                 <nav className="flex size-full items-center justify-between p-4">
                     <div className="flex items-center gap-7">
-                        <Image src="/img/logo.png" alt="logo" className="w-10" />
+                        <Image src="/img/logo.png" alt="logo" className="w-10" width={50} height={50} />
                         <Button
                             id="product-button"
                             title="Portafolio"
