@@ -1,8 +1,8 @@
 'use client';
 
 import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap } from 'gsap/dist/gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useEffect, useRef, useState } from 'react';
 import { TiLocationArrow } from 'react-icons/ti';
 import Button from '../ui/button';
@@ -43,33 +43,6 @@ const Hero = () => {
         setCurrentIndex(prevIndex => (prevIndex % TOTAL_VIDEOS) + 1);
     };
 
-    useGSAP(() => {
-        if (!hasClicked) return;
-    
-        gsap.set('#next-video', { visibility: 'visible' });
-        
-        gsap.to('#next-video', {
-            transformOrigin: 'center center',
-            scale: 1,
-            width: '100%',
-            height: '100%',
-            duration: 1,
-            ease: 'power1.inOut',
-            onStart() { 
-                nextVdRef.current?.play();
-            }
-        });
-        
-        gsap.from('#current-video', {
-            transformOrigin: 'center center',
-            scale: 0,
-            duration: 1.5,
-            ease: 'power1.inOut'
-        });
-    }, {
-        dependencies: [currentIndex],
-        revertOnUpdate: true
-    });
     // Frame animation
     useGSAP(() => {
         gsap.set('#video-frame', {

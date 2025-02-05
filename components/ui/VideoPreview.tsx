@@ -1,93 +1,98 @@
 import { gsap } from 'gsap';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { FC, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 interface VideoPreviewProps {
-    children: ReactNode;
+  children: ReactNode;
+  onClick?: () => void;
 }
 
-const VideoPreview = ({ children }: VideoPreviewProps) => {
-    // State for tracking hover
-    const [isHovering, setIsHovering] = useState(false);
+const ANIMATION_CONFIG = {
+  DURATION: 1,
+  PERSPECTIVE: 500,
+  ROTATION_FACTOR: 2,
+  EASE: 'power1.out'
+};
 
-    // Typed refs for DOM elements
-    const sectionRef = useRef<HTMLElement | null>(null);
-    const contentRef = useRef<HTMLDivElement | null>(null);
+const VideoPreview: FC<VideoPreviewProps> = ({ children, onClick }) => {
+  const [isHovering, setIsHovering] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-    // Animation constants
-    const ANIMATION_DURATION = 1;
-    const PERSPECTIVE = 500;
-    const ROTATION_FACTOR = 2;
-
-    // Handles mouse movement with proper typing
-    const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
-        const { clientX, clientY, currentTarget } = event;
-        const rect = currentTarget.getBoundingClientRect();
-
-        // Calculate offsets from center
-        const xOffset = clientX - (rect.left + rect.width / 2);
-        const yOffset = clientY - (rect.top + rect.height / 2);
-
-        if (!isHovering || !sectionRef.current || !contentRef.current) return;
-
-        // Container animation
-        gsap.to(sectionRef.current, {
-            x: xOffset,
-            y: yOffset,
-            rotationY: xOffset / ROTATION_FACTOR,
-            rotationX: -yOffset / ROTATION_FACTOR,
-            transformPerspective: PERSPECTIVE,
-            duration: ANIMATION_DURATION,
-            ease: 'power1.out',
-        });
-
-        // Content parallax animation
-        gsap.to(contentRef.current, {
-            x: -xOffset,
-            y: -yOffset,
-            duration: ANIMATION_DURATION,
-            ease: 'power1.out',
-        });
+  const resetAnimations = useCallback(() => {
+    const resetParams = {
+      x: 0,
+      y: 0,
+      rotationY: 0,
+      rotationX: 0,
+      duration: ANIMATION_CONFIG.DURATION,
+      ease: ANIMATION_CONFIG.EASE
     };
 
-    // Reset animations when hover ends
-    useEffect(() => {
-        if (!isHovering && sectionRef.current && contentRef.current) {
-            const resetAnimation = {
-                x: 0,
-                y: 0,
-                rotationY: 0,
-                rotationX: 0,
-                duration: ANIMATION_DURATION,
-                ease: 'power1.out',
-            };
+    if (sectionRef.current) gsap.to(sectionRef.current, resetParams);
+    if (contentRef.current) gsap.to(contentRef.current, resetParams);
+  }, []);
 
-            gsap.to(sectionRef.current, resetAnimation);
-            gsap.to(contentRef.current, resetAnimation);
-        }
-    }, [isHovering]);
+  const handleInteraction = useCallback(
+    (event: React.MouseEvent | React.TouchEvent) => {
+      if (!sectionRef.current || !contentRef.current) return;
 
-    return (
-        <section
-            ref={sectionRef}
-            onMouseMove={handleMouseMove}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-            className="absolute z-50 size-full overflow-hidden rounded-lg"
-            style={{
-                perspective: `${PERSPECTIVE}px`,
-            }}
-        >
-            <div
-                ref={contentRef}
-                className="origin-center rounded-lg"
-                style={{
-                    transformStyle: 'preserve-3d',
-                }}
-            >
-                {children}
-            </div>
-        </section>
-    );
+      const rect = sectionRef.current.getBoundingClientRect();
+      const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX;
+      const clientY = 'touches' in event ? event.touches[0].clientY : event.clientY;
+
+      const xOffset = clientX - (rect.left + rect.width / 2);
+      const yOffset = clientY - (rect.top + rect.height / 2);
+
+      gsap.to(sectionRef.current, {
+        x: xOffset,
+        y: yOffset,
+        rotationY: xOffset / ANIMATION_CONFIG.ROTATION_FACTOR,
+        rotationX: -yOffset / ANIMATION_CONFIG.ROTATION_FACTOR,
+        transformPerspective: ANIMATION_CONFIG.PERSPECTIVE,
+        duration: ANIMATION_CONFIG.DURATION,
+        ease: ANIMATION_CONFIG.EASE
+      });
+
+      gsap.to(contentRef.current, {
+        x: -xOffset,
+        y: -yOffset,
+        duration: ANIMATION_CONFIG.DURATION,
+        ease: ANIMATION_CONFIG.EASE
+      });
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (!isHovering) resetAnimations();
+  }, [isHovering, resetAnimations]);
+
+  return (
+    <section
+      ref={sectionRef}
+      role="button"
+      tabIndex={0}
+      aria-label="Interactive video preview"
+      onMouseMove={handleInteraction}
+      onTouchMove={handleInteraction}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onTouchStart={() => setIsHovering(true)}
+      onTouchEnd={() => setIsHovering(false)}
+      onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
+      onClick={onClick}
+      className="absolute z-50 size-full overflow-hidden rounded-lg"
+      style={{ perspective: ANIMATION_CONFIG.PERSPECTIVE }}
+    >
+      <div
+        ref={contentRef}
+        className="origin-center rounded-lg"
+        style={{ transformStyle: 'preserve-3d' }}
+      >
+        {children}
+      </div>
+    </section>
+  );
 };
 
 export default VideoPreview;

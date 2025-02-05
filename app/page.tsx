@@ -1,8 +1,11 @@
+'use client';
 import About from "@/components/About";
+import Clients from "@/components/Clients";
+import Contact from "@/components/Contact";
 import Hero from "@/components/layout/Hero";
 import NavBar from "@/components/layout/Navbar";
 import Portfolio from "@/components/Portfolio";
-import Image from "next/image";
+import Services from "@/components/Services";
 
 export default function Home() {
   return (
@@ -17,57 +20,33 @@ export default function Home() {
         <About />
         </div>
 
+        <div id="servicios" className='min-h-screen'>
+          <Services />
+        </div>
+
         <div id ="portafolio"  className='min-h-screen'>
         <Portfolio />
         </div>
 
+        <div id ="clientes"  className='min-h-screen'>
+        <Clients />
+        </div>
+
+        <div id ="contacto"  className='min-h-screen'>
+        <Contact />
+        </div>
+
+
+
+        
+
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center bg-zinc-950">
+        
+<div className="flex gap-6 flex-wrap items-center justify-center font-robert-regular p-3 text-white ">
+Copyright © 2025 Arelo. All rights reserved.
+
+  </div>         
       </footer>
     </div>
   );
