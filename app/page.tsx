@@ -2,8 +2,10 @@
 import About from "@/components/About";
 import Clients from "@/components/Clients";
 import Contact from "@/components/Contact";
+import Footer from "@/components/layout/Footer";
 import Hero from "@/components/layout/Hero";
 import NavBar from "@/components/layout/Navbar";
+import MapComponent from "@/components/MapComponent";
 import Portfolio from "@/components/Portfolio";
 import Services from "@/components/Services";
 
@@ -36,18 +38,14 @@ export default function Home() {
         <Contact />
         </div>
 
-
+        <div id ="mapa"  className='min-h-screen'>
+        <MapComponent />
+        </div>
 
         
 
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center bg-zinc-950">
-        
-<div className="flex gap-6 flex-wrap items-center justify-center font-robert-regular p-3 text-white ">
-Copyright © 2025 Arelo. All rights reserved.
-
-  </div>         
-      </footer>
+      <Footer />
     </div>
   );
 }

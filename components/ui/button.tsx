@@ -8,6 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     containerClass?: string;
     variant?: 'default' | 'outline' | 'ghost';
     size?: 'sm' | 'md' | 'lg';
+    asChild?: boolean
 }
 
 const baseStyles = 'group relative z-10 overflow-hidden rounded-full text-black transition-all duration-200 ease-in-out';

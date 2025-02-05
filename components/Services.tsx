@@ -10,17 +10,17 @@ gsap.registerPlugin(ScrollTrigger);
 
 const serviceItems = [
   {
-    icon: <TiCode className="h-12 w-12 text-blue-600" />,
+    icon: <TiCode className="h-12 w-12 text-orange-500" />,
     title: "Desarrollo de Software a la Medida",
     description: "Creamos soluciones de software adaptadas a las necesidades específicas de tu negocio, asegurando un rendimiento óptimo y escalabilidad."
   },
   {
-    icon: <TiZoom className="h-12 w-12 text-blue-600" />,
+    icon: <TiZoom className="h-12 w-12 text-orange-500" />,
     title: "QA Testing",
     description: "Ofrecemos nuestros servicios en Testing de Software, Velando siempre por el aseguramiento de la calidad del Software implementado en tu empresa."
   },
   {
-    icon: <TiUserAdd className="h-12 w-12 text-blue-600" />,
+    icon: <TiUserAdd className="h-12 w-12 text-orange-500" />,
     title: "Solicitud de Recursos",
     description: "Solicitud de Analistas de QA y Desarrolladores FRONT especializados para fortalecer tu equipo de desarrollo."
   }

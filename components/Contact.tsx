@@ -105,7 +105,7 @@ const Contact = () => {
     return (
         <div id="contacto" className="min-h-screen w-screen  py-20 bg-gray-500">
             <div className="container mx-auto px-4">
-                <div className="flex flex-col items-center text-center mb-16">
+                <div className="flex flex-col items-center text-center mb-16">  
                     <p className="font-general text-sm uppercase md:text-[10px] mb-6">
                         Contáctanos
                     </p>
