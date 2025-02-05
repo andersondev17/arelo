@@ -102,9 +102,8 @@ const Clients = () => {
                                     <Image
                                         src={client.logo}
                                         alt={client.name}
-                                        layout="fill"
-                                        objectFit="contain"
-                                        className="transition-all duration-300"
+                                        fill
+                                        className="transition-all duration-300 object-cover"
                                     />
                                 </div>
                                 <div className={`text-center transition-opacity duration-300 `}>

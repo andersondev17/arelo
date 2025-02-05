@@ -92,6 +92,7 @@ const Contact = () => {
                 message: ""
             });
         } catch (error) {
+            console.error(error);
             toast({
                 title: "Error",
                 description: "Hubo un problema al enviar el mensaje. Por favor, intenta nuevamente.",
