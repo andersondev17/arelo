@@ -69,7 +69,8 @@ const Hero = () => {
     const renderVideoFrame = () => (
         <div>
             <div className={`mask-clip-path absolute-center items-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg ${hasClicked ? 'transition-transform duration-300' : ''
-                }`}>                <VideoPreview>
+                }`}>
+                <VideoPreview>
                     <div
                         onClick={handleMiniVdClick}
                         className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"

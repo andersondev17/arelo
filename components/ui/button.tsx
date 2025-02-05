@@ -1,5 +1,6 @@
+// components/ui/Button.tsx
 import { cn } from '@/lib/utils';
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     title: string;
@@ -8,7 +9,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     containerClass?: string;
     variant?: 'default' | 'outline' | 'ghost';
     size?: 'sm' | 'md' | 'lg';
-    asChild?: boolean
 }
 
 const baseStyles = 'group relative z-10 overflow-hidden rounded-full text-black transition-all duration-200 ease-in-out';
@@ -25,7 +25,7 @@ const variantStyles = {
     ghost: 'hover:bg-primary/10'
 };
 
-export const Button = ({
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     title,
     id,
     leftIcon,
@@ -35,9 +35,10 @@ export const Button = ({
     size = 'md',
     className,
     ...props
-}: ButtonProps) => {
+}, ref) => {
     return (
         <button
+            ref={ref}
             id={id}
             className={cn(
                 baseStyles,
@@ -65,6 +66,8 @@ export const Button = ({
             )}
         </button>
     );
-};
+});
+
+Button.displayName = 'Button';
 
 export default Button;

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+// components/Footer.tsx
 import { Separator } from "@/components/ui/separator";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -123,17 +123,13 @@ const SocialColumn = () => (
 );
 
 const SocialButton = ({ icon: Icon, href, label }: SocialLink) => (
-    <Button
-        variant="ghost"
-        size="sm"
-        className="h-9 w-9 hover:bg-zinc-800 hover:text-orange-500 transition-colors duration-300"
-        asChild
-        title={label}
+    <a
+        href={href}
+        aria-label={label}
+        className="inline-flex h-9 w-9 items-center justify-center rounded-lg hover:bg-zinc-800 hover:text-orange-500 transition-colors duration-300"
     >
-        <a href={href} aria-label={label}>
-            <Icon className="h-5 w-5" />
-        </a>
-    </Button>
+        <Icon className="h-5 w-5" />
+    </a>
 );
 
 const CopyrightSection = () => (
