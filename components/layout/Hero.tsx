@@ -116,12 +116,12 @@ const Hero = () => {
                 </h1>
 
                 <p className="mb-5 max-w-64 font-sans text-blue-100">
-                    Transformamos tus ideas en  <br /> Soluciones tecnologicas
+                    Transformamos tus ideas en  <br /> Soluciones tecnológicas
                 </p>
 
                 <Button
                     id="watch-trailer"
-                    title="Ver mas"
+                    title="Ver más"
                     leftIcon={<TiLocationArrow />}
                     containerClass="bg-yellow-300 flex-center gap-1"
                 />

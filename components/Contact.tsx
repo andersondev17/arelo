@@ -116,7 +116,7 @@ const Contact = () => {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-10 mx-4">
                     <Card className="contact-content p-8 border-none shadow-lg bg-zinc-50">
                         <h3 className="text-2xl font-semibold mb-6">Información de Contacto</h3>
                         <ContactInfo />

@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AnimatedTitle from "./ui/AnimatedTitle";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -34,46 +34,61 @@ const clients = [
 
 const Clients = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
-        const clientsTimeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#clients",
-                start: "top center",
-                end: "+=300",
-                scrub: 0.5,
-            },
-        });
+        const container = containerRef.current;
+        const wrapper = wrapperRef.current;
+        if (!container || !wrapper) return;
 
-        clientsTimeline
-            .from(".client-card", {
-                y: 30,
-                opacity: 0,
-                duration: 0.6,
-                stagger: {
-                    each: 0.2,
-                    from: "start",
-                },
-                ease: "power2.out"
-            });
-
-        // Infinite scroll animation for logos
-        gsap.to(".clients-container", {
-            xPercent: -50,
+        const totalWidth = container.scrollWidth - window.innerWidth;
+        
+        // Animación principal de scroll horizontal
+        const horizontalScroll = gsap.to(container, {
+            x: -totalWidth,
             ease: "none",
-            duration: 20,
-            repeat: -1,
             scrollTrigger: {
-                trigger: ".clients-container",
-                start: "top center",
-                end: "bottom center",
-                toggleActions: "play pause resume pause"
+                trigger: wrapper,
+                start: "top top",
+                end: "+=200%",
+                scrub: 1,
+                pin: true,
+                invalidateOnRefresh: true
             }
         });
-    });
+
+        // Animación de aparición de cards
+        gsap.utils.toArray(".client-card").forEach((card: any, i) => {
+            gsap.from(card, {
+                opacity: 0,
+                y: 50,
+                scale: 0.9,
+                scrollTrigger: {
+                    trigger: card,
+                    containerAnimation: horizontalScroll,
+                    start: "left 75%",
+                    end: "left 25%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Efecto de gradientes dinámicos
+        gsap.to(".scroll-gradient", {
+            opacity: 0,
+            scrollTrigger: {
+                containerAnimation: horizontalScroll,
+                start: "left 90%",
+                end: "left 10%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+    }, { scope: containerRef });
 
     return (
-        <div id="clientes" className="min-h-screen w-screen bg-white py-20 overflow-hidden">
+        <div id="clientes" className="min-h-screen w-screen bg-white py-20" ref={wrapperRef}>
             <div className="container mx-auto px-4 mb-16">
                 <div className="flex flex-col items-center text-center">
                     <p className="font-general text-sm uppercase md:text-[10px] mb-6">
@@ -86,27 +101,31 @@ const Clients = () => {
                 </div>
             </div>
 
-            <div className="relative w-full">
-                <div className="clients-container flex gap-8 py-10">
+            <div className="relative w-full overflow-hidden">
+                <div 
+                    ref={containerRef}
+                    className="clients-container flex gap-8 py-10 pl-4"
+                >
                     {[...clients, ...clients].map((client, index) => (
                         <Card
                             key={`${client.name}-${index}`}
                             className={`client-card flex-shrink-0 w-64 h-64 p-6 cursor-pointer transition-all duration-300
-                ${hoveredIndex === index ? 'scale-105 shadow-xl' : 'shadow-md'}
-                hover:bg-blue-50 border-none`}
+                                ${hoveredIndex === index ? 'scale-105 shadow-xl' : 'shadow-md'}
+                                hover:bg-blue-50 border-none`}
                             onMouseEnter={() => setHoveredIndex(index)}
                             onMouseLeave={() => setHoveredIndex(null)}
                         >
                             <div className="h-full flex flex-col items-center justify-center gap-4">
-                                <div className="relative w-40 h-40 transition-transform duration-300">
+                                <div className="relative w-40 h-40">
                                     <Image
                                         src={client.logo}
                                         alt={client.name}
                                         fill
-                                        className="transition-all duration-300 object-cover"
+                                        className="object-cover rounded-lg transition-transform duration-300 hover:scale-105"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     />
                                 </div>
-                                <div className={`text-center transition-opacity duration-300 `}>
+                                <div className="text-center">
                                     <h3 className="font-semibold text-lg text-gray-800">{client.name}</h3>
                                     <p className="text-sm text-gray-600">{client.description}</p>
                                 </div>
@@ -115,9 +134,8 @@ const Clients = () => {
                     ))}
                 </div>
 
-                {/* Gradient overlays for infinite scroll effect */}
-                <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent" />
-                <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent" />
+                <div className="scroll-gradient absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent pointer-events-none" />
+                <div className="scroll-gradient absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent pointer-events-none" />
             </div>
         </div>
     );
