@@ -1,9 +1,10 @@
 'use client';
-import clsx from "clsx";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import gsap from "gsap";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { TiLocationArrow } from "react-icons/ti";
+import { BsSpeaker, BsSpeakerFill } from "react-icons/bs";
+import { TiLocationArrow, TiThMenu } from "react-icons/ti";
 import { useWindowScroll } from "react-use";
 import Button from "../ui/button";
 
@@ -16,7 +17,7 @@ interface AudioElementRefType extends HTMLAudioElement {
 
 const NavBar: React.FC = () => {
     const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
-    const [isIndicatorActive, setIsIndicatorActive] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const audioElementRef = useRef<AudioElementRefType>(null);
     const navContainerRef = useRef<HTMLDivElement>(null);
@@ -27,7 +28,6 @@ const NavBar: React.FC = () => {
 
     const toggleAudioIndicator = (): void => {
         setIsAudioPlaying(prev => !prev);
-        setIsIndicatorActive(prev => !prev);
     };
 
     useEffect(() => {
@@ -67,6 +67,14 @@ const NavBar: React.FC = () => {
         }
     }, [isNavVisible]);
 
+    const handleNavClick = (href: string): void => {
+        setIsOpen(false);
+        const element = document.querySelector(href);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <div
             ref={navContainerRef}
@@ -85,40 +93,74 @@ const NavBar: React.FC = () => {
                     </div>
 
                     <div className="flex h-full items-center">
+                        {/* Desktop Navigation */}
                         <div className="hidden md:block">
                             {navItems.map((item) => (
                                 <a
                                     key={item}
                                     href={`#${item.toLowerCase()}`}
                                     className="nav-hover-btn"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNavClick(`#${item.toLowerCase()}`);
+                                    }}
                                 >
                                     {item}
                                 </a>
                             ))}
                         </div>
 
-                        <button
-                            onClick={toggleAudioIndicator}
-                            className="ml-10 flex items-center space-x-0.5"
-                        >
+                        {/* Mobile Navigation */}
+                        <div className="block md:hidden">
+                            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                                <SheetTrigger asChild>
+                                    <Button
+                                        title=""
+                                        rightIcon={<TiThMenu className="h-6 w-6 text-white" />}
+                                        containerClass="bg-transparent hover:bg-blue-50/10"
+                                    />
+                                </SheetTrigger>
+                                <SheetContent side="right" className="w-[300px] bg-black p-0">
+                                    <div className="flex flex-col space-y-4 p-6">
+                                        {navItems.map((item) => (
+                                            <a
+                                                key={item}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleNavClick(`#${item.toLowerCase()}`);
+                                                }}
+                                                className="nav-hover-btn"
+                                            >
+                                                {item}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </SheetContent>
+                            </Sheet>
+                        </div>
+
+                        {/* Audio Indicator */}
+                        <div className="relative ml-10">
+                            <button
+                                onClick={toggleAudioIndicator}
+                                className="flex items-center space-x-0.5 p-2 group"
+                                aria-label={isAudioPlaying ? 'Pausar audio' : 'Reproducir audio'}
+                            >
+                                <div className="text-white transition-transform duration-300 hover:scale-110">
+                                    {isAudioPlaying ? (
+                                        <BsSpeakerFill className="w-5 h-5" />
+                                    ) : (
+                                        <BsSpeaker className="w-5 h-5" />
+                                    )}
+                                </div>
+                            </button>
                             <audio
                                 ref={audioElementRef}
-                                className="hidden"
                                 src="/audio/loop.mp3"
                                 loop
+                                className="hidden"
                             />
-                            {[1, 2, 3, 4].map((bar) => (
-                                <div
-                                    key={bar}
-                                    className={clsx("indicator-line", {
-                                        active: isIndicatorActive,
-                                    })}
-                                    style={{
-                                        animationDelay: `${bar * 0.1}s`,
-                                    }}
-                                />
-                            ))}
-                        </button>
+                        </div>
                     </div>
                 </nav>
             </header>
