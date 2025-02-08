@@ -110,6 +110,28 @@ const NavBar: React.FC = () => {
                             ))}
                         </div>
 
+                        {/* Audio Indicator */}
+                        <div className="relative ml-10">
+                            <button
+                                onClick={toggleAudioIndicator}
+                                className="flex items-center space-x-0.5 p-2 group"
+                                aria-label={isAudioPlaying ? 'Pausar audio' : 'Reproducir audio'}
+                            >
+                                <div className="text-white transition-transform duration-300 hover:scale-110">
+                                    {isAudioPlaying ? (
+                                        <BsSpeakerFill className="w-5 h-5" />
+                                    ) : (
+                                        <BsSpeaker className="w-5 h-5" />
+                                    )}
+                                </div>
+                            </button>
+                            <audio
+                                ref={audioElementRef}
+                                src="/audio/loop.mp3"
+                                loop
+                                className="hidden"
+                            />
+                        </div>
                         {/* Mobile Navigation */}
                         <div className="block md:hidden">
                             <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -139,28 +161,7 @@ const NavBar: React.FC = () => {
                             </Sheet>
                         </div>
 
-                        {/* Audio Indicator */}
-                        <div className="relative ml-10">
-                            <button
-                                onClick={toggleAudioIndicator}
-                                className="flex items-center space-x-0.5 p-2 group"
-                                aria-label={isAudioPlaying ? 'Pausar audio' : 'Reproducir audio'}
-                            >
-                                <div className="text-white transition-transform duration-300 hover:scale-110">
-                                    {isAudioPlaying ? (
-                                        <BsSpeakerFill className="w-5 h-5" />
-                                    ) : (
-                                        <BsSpeaker className="w-5 h-5" />
-                                    )}
-                                </div>
-                            </button>
-                            <audio
-                                ref={audioElementRef}
-                                src="/audio/loop.mp3"
-                                loop
-                                className="hidden"
-                            />
-                        </div>
+
                     </div>
                 </nav>
             </header>
