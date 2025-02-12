@@ -33,7 +33,7 @@ const MapComponent = () => {
                     </p>
                     <AnimatedTitle
                         title="Encuen<b>t</b>ranos <br/> A<b>q</b>uí"
-                        containerClass="mt-5 !text-white text-center"
+                        containerClass="mt-5 !text-white text-center items center px-3"
                     />
                 </div>
 

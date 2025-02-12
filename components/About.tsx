@@ -31,10 +31,14 @@ const About = () => {
             Bienvenidos a Arelo
           </p>
 
+          <div className='items center relative'>
           <AnimatedTitle
-            title="Trans<b>fo</b>rmamos <br/> tu Visi<b>o</b>n Digital"
+            title="Trans<b>fo</b>rma <br/> tu Visi<b>o</b>n Digital"
             containerClass="mt-4 mb-8 text-white text-center"
           />
+          </div>
+
+          
 
           <p className="text-xl text-gray-300 leading-relaxed">
             Somos más que una empresa de software - somos tu socio estratégico en la transformación digital. 

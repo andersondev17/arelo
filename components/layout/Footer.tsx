@@ -26,7 +26,7 @@ const SOCIAL_LINKS: SocialLink[] = [{ icon: Instagram, href: "#", label: "Instag
 const QUICK_LINKS = ["Inicio", "Servicios", "Proyectos", "Contacto"];
 const CONTACT_INFO: ContactInfo[] = [
     { icon: MapPin, text: "Medellín, Antioquia, Colombia" },
-    { icon: Phone, text: "+57 304241520" },
+    { icon: Phone, text: "+57 3042415204" },
     { icon: Mail, text: "contacto@arelo.com" }
 ];
 
